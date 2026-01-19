@@ -1,3 +1,0 @@
-[submodule "nix/sensitive"]
-  path = nix/sensitive
-  ignore = all
