@@ -1,0 +1,49 @@
+
+================================================================================
+FORAGE - PHASE 5 ENHANCEMENT: CONFIG COMBINATION TESTING
+Started: 2026-10-01 06:39:07
+================================================================================
+
+✗ Container failed to become healthy
+✗ CONFIG-1: Failed
+
+✗ Container failed to become healthy
+✗ CONFIG-2: Failed
+
+✗ Container failed to become healthy
+✗ CONFIG-3: Failed
+
+✗ Container failed to become healthy
+✗ CONFIG-4: Failed
+
+✗ Container failed to become healthy
+✗ CONFIG-5: Failed
+
+✗ Container failed to become healthy
+✗ CONFIG-6: Failed
+
+✗ Container failed to become healthy
+✗ CONFIG-7: Failed
+
+✗ Container failed to become healthy
+✗ CONFIG-8: Failed
+
+ℹ Original config restored
+
+
+[1;33m=================================================================================[0m
+[0;32mPHASE 5 ENHANCEMENT - CONFIG COMBO TESTING COMPLETE[0m
+================================================================================
+
+Completed: 2026-10-01 06:43:44
+
+Config Combinations Tested:
+  1. CONFIG-1: Default (trafilatura + scrapling + cache on + forage)
+  2. CONFIG-2: trafilatura + playwright
+  3. CONFIG-3: readability + scrapling
+  4. CONFIG-4: Cache disabled (search and extract)
+  5. CONFIG-5: Search cache only (extract disabled)
+  6. CONFIG-6: Short TTL (search 30s, extract 10s)
+  7. CONFIG-7: Extended timeout (search 60s, extract 120s)
+  8. CONFIG-8: LLM stub enabled (no-op)
+

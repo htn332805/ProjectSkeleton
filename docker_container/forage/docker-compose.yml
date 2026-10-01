@@ -1,0 +1,42 @@
+services:
+  forage:
+    build: .
+    # Published image: docker pull ghcr.io/aldemaroc/forage:1.0.0
+    # `build: .` above keeps local builds working; compose tags the local build
+    # with this name. To run the published image without building, comment out
+    # the build line and use `docker compose pull && docker compose up -d`.
+    image: ghcr.io/aldemaroc/forage:1.0.0
+    container_name: forage
+    restart: always
+    ports:
+      - "127.0.0.1:3672:3672"   # host-only bind: nothing external reaches it
+    volumes:
+      - ./config.yaml:/etc/forage/config.yaml:ro   # bind mount, read-only
+    env_file: .env
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:3672/health', timeout=3).status==200 else 1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+# SearXNG integration (optional):
+#
+# The default `search.provider` is `forage`, which renders SERPs in the 
+# container's own browser. This compose runs standalone with no external
+# dependencies.
+#
+# To use SearXNG instead of Forage's own SERP engines:
+# 1. Set `search.provider: searxng` in config.yaml
+# 2. Create `docker-compose.override.yml` (see docs/SEARXNG.md):
+#
+#    services:
+#      forage:
+#        networks:
+#          - default
+#          - searxng_default
+#    networks:
+#      searxng_default:
+#        external: true
+#
+# 3. Then: docker compose up -d

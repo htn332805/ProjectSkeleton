@@ -1,0 +1,73 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Applications/Xcode.app/Contents/Developer/usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /Users/m3mac/docker_container/searxng/tests
+plugins: xdist-3.8.0, rerunfailures-16.0.1
+collecting ... collected 11 items
+
+api/test_api_health.py::test_root_status PASSED                          [  9%]
+api/test_search_json.py::test_search_json PASSED                         [ 18%]
+integration/test_doi_resolvers.py::test_default_doi_resolver_present FAILED [ 27%]
+integration/test_doi_resolvers.py::test_doi_resolvers_resolve SKIPPED    [ 36%]
+integration/test_engines_per_engine.py::test_engines_configured_and_presence SKIPPED [ 45%]
+integration/test_result_schema.py::test_search_result_schema_basic PASSED [ 54%]
+perf/test_rate_limiter_behavior.py::test_rate_limiter_if_enabled SKIPPED [ 63%]
+security/test_security_headers.py::test_security_headers_present FAILED  [ 72%]
+settings/test_settings_reload.py::test_settings_reload_restarts_container SKIPPED [ 81%]
+ui/test_preferences_flow.py::test_preferences_flow ERROR                 [ 90%]
+ui/test_search_flow.py::test_search_page_renders ERROR                   [100%]
+
+==================================== ERRORS ====================================
+___________________ ERROR at setup of test_preferences_flow ____________________
+file /Users/m3mac/docker_container/searxng/tests/ui/test_preferences_flow.py, line 4
+  @pytest.mark.ui
+  def test_preferences_flow(page, searx_url):
+E       fixture 'page' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, doctest_namespace, http, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, searx_url, testrun_uid, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, worker_id
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/m3mac/docker_container/searxng/tests/ui/test_preferences_flow.py:4
+__________________ ERROR at setup of test_search_page_renders __________________
+file /Users/m3mac/docker_container/searxng/tests/ui/test_search_flow.py, line 4
+  def test_search_page_renders(page, searx_url):
+E       fixture 'page' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, doctest_namespace, http, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, searx_url, testrun_uid, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, worker_id
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/m3mac/docker_container/searxng/tests/ui/test_search_flow.py:4
+=================================== FAILURES ===================================
+______________________ test_default_doi_resolver_present _______________________
+integration/test_doi_resolvers.py:18: in test_default_doi_resolver_present
+    assert default is not None, "default_doi_resolver not set in settings.yml"
+E   AssertionError: default_doi_resolver not set in settings.yml
+E   assert None is not None
+________________________ test_security_headers_present _________________________
+security/test_security_headers.py:7: in test_security_headers_present
+    assert headers.get("Content-Security-Policy") is not None
+E   AssertionError: assert None is not None
+E    +  where None = get('Content-Security-Policy')
+E    +    where get = {'content-type': 'text/html; charset=utf-8', 'content-length': '6784', 'server-timing': 'total;dur=1.742, render;dur=0.982', 'server': 'granian', 'date': 'Thu, 01 Oct 2026 12:10:59 GMT'}.get
+=============================== warnings summary ===============================
+../../../Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35
+  /Users/m3mac/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+    warnings.warn(
+
+integration/test_doi_resolvers.py:22
+  /Users/m3mac/docker_container/searxng/tests/integration/test_doi_resolvers.py:22: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+integration/test_result_schema.py:28
+  /Users/m3mac/docker_container/searxng/tests/integration/test_result_schema.py:28: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+ui/test_preferences_flow.py:4
+  /Users/m3mac/docker_container/searxng/tests/ui/test_preferences_flow.py:4: PytestUnknownMarkWarning: Unknown pytest.mark.ui - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.ui
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED integration/test_doi_resolvers.py::test_default_doi_resolver_present
+FAILED security/test_security_headers.py::test_security_headers_present - Ass...
+ERROR ui/test_preferences_flow.py::test_preferences_flow
+ERROR ui/test_search_flow.py::test_search_page_renders
+========= 2 failed, 3 passed, 4 skipped, 4 warnings, 2 errors in 0.61s =========

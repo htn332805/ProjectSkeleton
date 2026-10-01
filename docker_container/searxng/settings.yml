@@ -1,0 +1,60 @@
+# Read the documentation before extending the defaults:
+# https://docs.searxng.org/admin/settings/
+
+use_default_settings: false
+
+server:
+  secret_key: "9FXT2b5T7vTOKb9oP6DPQfg5cmoMznV"
+  image_proxy: true
+  limiter: false
+  # Security headers
+  response_headers:
+    X-Content-Type-Options: "nosniff"
+    X-Frame-Options: "DENY"
+    Content-Security-Policy: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
+    Referrer-Policy: "strict-origin-when-cross-origin"
+    Permissions-Policy: "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+
+# Configure search response formats.
+search:
+  default_lang: "en" # Uses English when no language is specified
+  languages: # Restricts selectable search languages
+    - en # Allows English searches
+    - vi # Allows Vietnamese searches
+  # Define the enabled response formats.
+  formats:
+    # Keep the normal browser interface.
+    - html
+    # Enable the JSON API.
+    - json
+engines:
+  # Public search engines that generally work without rate limiting
+  - name: duckduckgo
+    engine: duckduckgo_web
+    shortcut: dd
+    language_support: true
+  - name: bing
+    engine: bing
+    shortcut: b
+  - name: qwant
+    engine: qwant
+    shortcut: qw
+  # Note: These may have rate limits or CAPTCHA requirements
+  - name: google
+    engine: google
+    shortcut: g
+    disabled: false
+  - name: brave
+    engine: brave
+    shortcut: br
+    disabled: false
+
+# Define DOI resolvers required by SearXNG preferences.
+doi_resolvers:
+  # Use OpenAlex's DOI resolver.
+  oadoi.org: "https://oadoi.org/"
+  # Use the standard DOI resolver.
+  doi.org: "https://doi.org/"
+
+# Select the default DOI resolver.
+default_doi_resolver: "oadoi.org"

@@ -1,0 +1,42 @@
+{
+  "name": "searxng_search",
+  "version": "1.0",
+  "description": "Search the web using SearXNG metasearch engine",
+  "type": "http",
+  "endpoint": "http://localhost:8080/search",
+  "method": "GET",
+  "auth_type": "none",
+  "parameters": {
+    "q": {
+      "type": "string",
+      "description": "Search query",
+      "required": true,
+      "location": "query"
+    },
+    "format": {
+      "type": "string",
+      "description": "Response format (json, html, csv)",
+      "default": "json",
+      "location": "query"
+    },
+    "engines": {
+      "type": "string",
+      "description": "Search engines to use (duckduckgo, google, bing)",
+      "default": "duckduckgo,google",
+      "location": "query"
+    }
+  },
+  "response": {
+    "format": "json",
+    "success_field": "results",
+    "error_handling": "status_code"
+  },
+  "documentation": {
+    "url": "http://localhost:8080/docs",
+    "examples": [
+      "q=Kubernetes",
+      "q=Docker&engines=duckduckgo",
+      "q=Python&format=json"
+    ]
+  }
+}

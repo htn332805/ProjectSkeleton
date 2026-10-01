@@ -1,0 +1,3 @@
+# CODE_ORGANIZATION_STRUCTURE
+
+## Directory tree

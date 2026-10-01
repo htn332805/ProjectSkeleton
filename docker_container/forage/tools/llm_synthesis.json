@@ -1,0 +1,53 @@
+{
+  "name": "llm_synthesize",
+  "version": "1.0",
+  "description": "Synthesize and summarize content using LLM via LM Studio",
+  "type": "http",
+  "endpoint": "http://127.0.0.1:1234/v1/chat/completions",
+  "method": "POST",
+  "auth_type": "none",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "parameters": {
+    "model": {
+      "type": "string",
+      "description": "LLM model to use",
+      "default": "qwen/qwen2.5-3b-instruct",
+      "enum": [
+        "qwen/qwen2.5-3b-instruct",
+        "google/gemma-4-e4b",
+        "liquid/lfm2.5-1.2b",
+        "deepseek-r1-distill-qwen-7b-tir-o3-mini-code"
+      ]
+    },
+    "messages": {
+      "type": "array",
+      "description": "Message array for chat completion",
+      "required": true
+    },
+    "max_tokens": {
+      "type": "integer",
+      "description": "Maximum tokens in response",
+      "default": 200,
+      "min": 50,
+      "max": 2000
+    },
+    "temperature": {
+      "type": "number",
+      "description": "Sampling temperature (0.0 - 1.0)",
+      "default": 0.7
+    }
+  },
+  "response": {
+    "format": "json",
+    "success_field": "choices",
+    "fields": ["content", "finish_reason", "usage"]
+  },
+  "documentation": {
+    "url": "https://lmstudio.ai/docs",
+    "examples": [
+      "{\"model\": \"qwen/qwen2.5-3b-instruct\", \"messages\": [{\"role\": \"user\", \"content\": \"Explain Docker\"}], \"max_tokens\": 100}"
+    ]
+  }
+}

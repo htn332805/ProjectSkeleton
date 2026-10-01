@@ -1,0 +1,44 @@
+{
+  "name": "forage_extract",
+  "version": "1.0",
+  "description": "Extract content from URLs using Forage content extraction service",
+  "type": "http",
+  "endpoint": "http://localhost:3673/extract",
+  "method": "POST",
+  "auth_type": "none",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "parameters": {
+    "urls": {
+      "type": "array",
+      "description": "URLs to extract content from",
+      "required": true,
+      "items": {
+        "type": "string",
+        "format": "url"
+      }
+    },
+    "formats": {
+      "type": "array",
+      "description": "Output formats (text, markdown, html, json)",
+      "default": ["text", "markdown"],
+      "items": {
+        "type": "string",
+        "enum": ["text", "markdown", "html", "json"]
+      }
+    }
+  },
+  "response": {
+    "format": "json",
+    "success_field": "results",
+    "fields": ["url", "text", "markdown", "error"]
+  },
+  "documentation": {
+    "url": "http://localhost:3673/docs",
+    "examples": [
+      "{\"urls\": [\"https://example.com\"], \"formats\": [\"text\"]}",
+      "{\"urls\": [\"https://example.com\", \"https://example.org\"], \"formats\": [\"markdown\"]}"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+pytest
+requests
+pytest-xdist
+pytest-rerunfailures
+pytest-playwright
+playwright
+jsonschema
+pydantic
+PyYAML
+urllib3
+docker

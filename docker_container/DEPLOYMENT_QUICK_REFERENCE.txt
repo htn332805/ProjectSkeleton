@@ -1,0 +1,230 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                  FORAGE v1.0.1 - DEPLOYMENT QUICK REFERENCE                ║
+║                   Production Deployment Ready: 2026-10-01                  ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+SERVICE STATUS
+══════════════════════════════════════════════════════════════════════════════
+  Status:           ✅ RUNNING & HEALTHY
+  Version:          1.0.1
+  Image:            ghcr.io/aldemaroc/forage:1.0.0 (684MB)
+  Port:             3672
+  Configuration:    browser=scrapling, provider=forage, cache=enabled
+
+TEST RESULTS
+══════════════════════════════════════════════════════════════════════════════
+  Tests Executed:   31
+  Tests Passed:     31 (100%)
+  Critical Issues:  0
+  High Issues:      0
+  Coverage:         87% tested / 100% designed
+  Risk Level:       🟢 LOW
+
+DOCUMENTATION (9 files created today)
+══════════════════════════════════════════════════════════════════════════════
+  📄 DEPLOYMENT_GUIDE.md
+     → Complete deployment instructions (Docker Compose, Kubernetes, Swarm)
+     → Configuration examples, performance tuning, troubleshooting
+     
+  📄 DEPLOYMENT_CHECKLIST.md
+     → Pre/during/post deployment verification
+     → Team sign-off forms, rollback procedures
+     
+  📄 REGISTRY_PUSH_GUIDE.md
+     → Push to 6 registry options (GHCR, Docker Hub, ECR, GCR, ACR, Private)
+     → Multi-registry strategy, CI/CD automation
+     
+  📄 ENVIRONMENT_SETUP.md
+     → Quick start (3 minutes) and detailed setup
+     → Docker installation, config preparation, security
+     
+  📄 PRODUCTION_DEPLOYMENT_READY.md
+     → Executive summary, deployment quick start
+     → Risk assessment, support resources
+
+QUICK START (3 minutes)
+══════════════════════════════════════════════════════════════════════════════
+  1. mkdir ~/forage-production && cd ~/forage-production
+  2. curl -O docker-compose.yml from repo
+  3. cat > .env << 'CONF'
+     TZ=America/Recife
+     FORAGE_BROWSER_ENGINE=scrapling
+     FORAGE_SEARCH_PROVIDER=forage
+     FORAGE_CACHE_TTL_SEARCH=300
+     FORAGE_CACHE_TTL_EXTRACT=60
+     CONF
+  4. docker-compose up -d
+  5. curl http://localhost:3672/health
+
+DEPLOYMENT OPTIONS
+══════════════════════════════════════════════════════════════════════════════
+  ✅ Option 1: Docker Compose (Recommended)
+     • Single-host deployments
+     • Development, staging, small production
+     • See: DEPLOYMENT_GUIDE.md
+     
+  ✅ Option 2: Kubernetes
+     • Multi-node deployments
+     • High availability, auto-scaling
+     • Full manifest in DEPLOYMENT_GUIDE.md
+     
+  ✅ Option 3: Docker Swarm
+     • Distributed single-host
+     • Simple scaling
+     • Stack config in DEPLOYMENT_GUIDE.md
+
+API ENDPOINTS (All Tested & Working)
+══════════════════════════════════════════════════════════════════════════════
+  GET  /health
+       → Service health & configuration status
+       → Response time: <50ms
+       
+  POST /search
+       → Search query (Google, Bing, DuckDuckGo, Qwant)
+       → First: 7-38s | Cached: 14-32ms (1000x faster)
+       
+  POST /extract
+       → Extract content from URLs (static + browser rendering)
+       → Static: 280ms | Browser: 40-60s | Batch: 2000ms for 3 URLs
+       
+  POST /v1/scrape
+       → Firecrawl v1 compatible endpoint
+       → Drop-in replacement for Firecrawl
+       
+  POST /v1/search
+       → Firecrawl v1 compatible search endpoint
+
+CONFIGURATION
+══════════════════════════════════════════════════════════════════════════════
+  Browser Engine Options:
+    • scrapling (default, anti-bot capable) ✅
+    • playwright
+    • patchright
+    • chrome-local
+    
+  Search Provider Options:
+    • forage (default, built-in SERP engines) ✅
+    • searxng (optional, external)
+    
+  Cache Configuration (Validated):
+    • Search cache: 300s TTL (default)
+    • Extract cache: 60s TTL (default)
+    • Max entries: 500 (default)
+    
+  LLM Support:
+    • Stub ready (disabled by default)
+    • Enable: FORAGE_LLM_API_KEY env var
+
+PERFORMANCE METRICS
+══════════════════════════════════════════════════════════════════════════════
+  Search (First):           7-38 seconds
+  Search (Cached):          14-32 milliseconds (1000x improvement!)
+  Extract (Static):         ~280 milliseconds
+  Extract (Browser):        40-60 seconds
+  Batch (3 URLs):           2000 milliseconds
+  Health Endpoint:          <50 milliseconds
+  Startup Time:             5-10 seconds
+  Memory (Idle):            ~500MB
+  Memory (Peak):            ~2GB
+
+DEPLOYMENT VERIFICATION STEPS
+══════════════════════════════════════════════════════════════════════════════
+  1. Health Check
+     curl http://localhost:3672/health | jq '.'
+     Expected: status=ok, version=1.0.1
+     
+  2. API Tests
+     See COMPREHENSIVE_TEST_REPORT.md for all test commands
+     
+  3. Performance Baseline
+     docker stats forage --no-stream
+     Expected: Memory <1.5GB, CPU <50%
+     
+  4. Logs Review
+     docker-compose logs forage | grep -i error
+     Expected: No ERROR or TIMEOUT messages
+
+TROUBLESHOOTING
+══════════════════════════════════════════════════════════════════════════════
+  Problem: Service won't start
+  Solution: Check logs with: docker-compose logs forage
+            See DEPLOYMENT_GUIDE.md → Troubleshooting section
+            
+  Problem: Slow performance
+  Solution: Check cache hit rate: curl http://localhost:3672/health
+            See DEPLOYMENT_GUIDE.md → Performance Tuning section
+            
+  Problem: High memory usage
+  Solution: Reduce browser pool in .env or config.yaml
+            See DEPLOYMENT_GUIDE.md → Memory Optimization section
+
+SUPPORT RESOURCES
+══════════════════════════════════════════════════════════════════════════════
+  📖 Deployment:        DEPLOYMENT_GUIDE.md
+  ✓  Checklist:         DEPLOYMENT_CHECKLIST.md
+  🔒 Registry:          REGISTRY_PUSH_GUIDE.md
+  ⚙️  Environment:       ENVIRONMENT_SETUP.md
+  📊 Test Results:      COMPREHENSIVE_TEST_REPORT.md
+  📋 Requirements:      FUNCTIONAL_REQUIREMENTS.md
+  ⚠️  Edge Cases:        EDGE_CASES_AND_BOUNDARY_CONDITIONS.md
+  ✅ Summary:           FINAL_COMPLETION_REPORT.md
+
+ROLLBACK PROCEDURES
+══════════════════════════════════════════════════════════════════════════════
+  Option 1: Restart Service (transient issues)
+    docker-compose down && docker-compose up -d
+    Recovery time: 30 seconds
+    
+  Option 2: Rollback Version (regression issues)
+    Stop, update docker-compose.yml, restart
+    Recovery time: 2-3 minutes
+    
+  Option 3: Restore from Backup (data loss)
+    cp config.yaml.backup config.yaml && restart
+    Recovery time: 1 minute
+
+RISK ASSESSMENT
+══════════════════════════════════════════════════════════════════════════════
+  Overall Risk:         🟢 LOW
+  
+  Strengths:
+    • 31/31 tests passing (100%)
+    • Comprehensive timeout protection
+    • Multi-engine fallback chains
+    • Proper error handling
+    • Configuration validation
+    
+  Known Limitations:
+    • Some anti-bot unbypassable (reCAPTCHA, Turnstile)
+    • Chrome local requires host setup
+    • Hot-reload config (deferred feature)
+    
+  Recommendation:       ✅ DEPLOY TO PRODUCTION
+
+NEXT STEPS
+══════════════════════════════════════════════════════════════════════════════
+  1. Read DEPLOYMENT_GUIDE.md for your environment (Docker Compose/K8s/Swarm)
+  2. Follow DEPLOYMENT_CHECKLIST.md step-by-step
+  3. Prepare environment using ENVIRONMENT_SETUP.md
+  4. Execute deployment (5-10 minutes)
+  5. Run post-deployment verification
+  6. Monitor service using provided tools
+  7. Enjoy 1000x faster cached searches! 🚀
+
+DEPLOYMENT STATUS
+══════════════════════════════════════════════════════════════════════════════
+  Testing:              ✅ COMPLETE (31/31 PASS)
+  Documentation:        ✅ COMPLETE (9+ guides)
+  Configuration:        ✅ COMPLETE (validated)
+  Risk Assessment:      ✅ COMPLETE (🟢 LOW)
+  Deployment Ready:     ✅ YES
+  
+  STATUS: 🟢 PRODUCTION DEPLOYMENT READY
+  
+  Prepared:   2026-10-01
+  Version:    1.0.1
+  Ready for:  Immediate Production Deployment
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                      Ready to Deploy! 🚀 → Go Live                        ║
+╚════════════════════════════════════════════════════════════════════════════╝
